@@ -1,0 +1,1069 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module WebSmsComToolkit</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>WebSmsComToolkit</strong></big></big> (version 1.0.0)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///P:/webserver/bpsdk/python/businessplatformsdk/websmscomtoolkit.py">p:\webserver\bpsdk\python\businessplatformsdk\websmscomtoolkit.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;WebSmsComToolkit.py<br>
+#&nbsp;A&nbsp;python&nbsp;module&nbsp;to&nbsp;send&nbsp;sms&nbsp;messages&nbsp;(text&nbsp;and&nbsp;binary)&nbsp;over&nbsp;api.websms.com&nbsp;Gateway<br>
+&nbsp;<br>
+&nbsp;<br>
+#&nbsp;Quick&nbsp;Example&nbsp;how&nbsp;to&nbsp;send&nbsp;a&nbsp;text&nbsp;message:<br>
+import&nbsp;sys<br>
+import&nbsp;traceback<br>
+import&nbsp;WebSmsComToolkit<br>
+&nbsp;<br>
+username&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'your_username'<br>
+password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'your_password'<br>
+gateway_url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'https://api.websms.com/'<br>
+recipient_address_list&nbsp;&nbsp;=&nbsp;[4367612345678L]<br>
+message_text_unicode&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;u'Willkommen&nbsp;zur&nbsp;BusinessPlatform&nbsp;SDK&nbsp;von&nbsp;websms.com!&nbsp;Diese&nbsp;Nachricht&nbsp;enth\u00E4lt&nbsp;160&nbsp;Zeichen.&nbsp;Sonderzeichen:&nbsp;\u00E4\u00F6\u00FC\u00DF.&nbsp;Eurozeichen:&nbsp;\u20ac.&nbsp;Das&nbsp;Ende&nbsp;wird&nbsp;nun&nbsp;ausgez\u00E4hlt43210'<br>
+max_sms_per_message&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br>
+#&nbsp;true:&nbsp;do&nbsp;not&nbsp;send&nbsp;sms&nbsp;for&nbsp;real,&nbsp;just&nbsp;test&nbsp;interface<br>
+is_test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;False<br>
+&nbsp;<br>
+try:<br>
+&nbsp;&nbsp;client&nbsp;&nbsp;=&nbsp;WebSmsComToolkit.<a href="#Client">Client</a>(gateway_url,&nbsp;username,&nbsp;password)<br>
+&nbsp;&nbsp;message&nbsp;=&nbsp;WebSmsComToolkit.<a href="#TextMessage">TextMessage</a>(recipient_address_list,&nbsp;message_text_unicode)<br>
+&nbsp;&nbsp;response&nbsp;=&nbsp;client.send(message,&nbsp;max_sms_per_message,&nbsp;is_test)<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;print&nbsp;"Transferred/Sent"&nbsp;&nbsp;<br>
+&nbsp;&nbsp;print&nbsp;"transferId&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;"&nbsp;+&nbsp;str(response.transferId)<br>
+&nbsp;&nbsp;print&nbsp;"clientMessageId&nbsp;:&nbsp;"&nbsp;+&nbsp;str(response.clientMessageId)<br>
+&nbsp;&nbsp;<br>
+except&nbsp;WebSmsComToolkit.<a href="#ParameterValidationException">ParameterValidationException</a>,&nbsp;e:<br>
+&nbsp;&nbsp;print&nbsp;"<a href="#ParameterValidationException">ParameterValidationException</a>&nbsp;caught:&nbsp;"&nbsp;+&nbsp;str(e.message)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+except&nbsp;WebSmsComToolkit.<a href="#AuthorizationFailedException">AuthorizationFailedException</a>,&nbsp;e:<br>
+&nbsp;&nbsp;print&nbsp;"<a href="#AuthorizationFailedException">AuthorizationFailedException</a>&nbsp;caught:&nbsp;"&nbsp;+&nbsp;str(e.message)<br>
+&nbsp;&nbsp;<br>
+except&nbsp;WebSmsComToolkit.<a href="#ApiException">ApiException</a>,&nbsp;e:<br>
+&nbsp;&nbsp;print&nbsp;"<a href="#ApiException">ApiException</a>&nbsp;caught.&nbsp;statusMessage:&nbsp;"&nbsp;+&nbsp;str(e.message)&nbsp;+&nbsp;",&nbsp;statusCode:&nbsp;"&nbsp;+&nbsp;str(e.code)<br>
+&nbsp;&nbsp;<br>
+except&nbsp;WebSmsComToolkit.<a href="#HttpConnectionException">HttpConnectionException</a>,&nbsp;e:<br>
+&nbsp;&nbsp;print&nbsp;"<a href="#HttpConnectionException">HttpConnectionException</a>&nbsp;caught:&nbsp;"&nbsp;+&nbsp;str(e.message)&nbsp;+&nbsp;"&nbsp;HTTP&nbsp;Status:&nbsp;"&nbsp;+&nbsp;str(e.code)<br>
+&nbsp;&nbsp;<br>
+except&nbsp;WebSmsComToolkit.<a href="#UnknownResponseException">UnknownResponseException</a>,&nbsp;e:<br>
+&nbsp;&nbsp;print&nbsp;"<a href="#UnknownResponseException">UnknownResponseException</a>&nbsp;caught:&nbsp;"&nbsp;+&nbsp;str(e.message)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+except&nbsp;<a href="exceptions.html#Exception">Exception</a>,&nbsp;e:<br>
+&nbsp;&nbsp;print&nbsp;"<a href="exceptions.html#Exception">Exception</a>&nbsp;caught:&nbsp;"&nbsp;,&nbsp;e<br>
+&nbsp;&nbsp;traceback.print_exc(file=sys.stdout)</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="base64.html">base64</a><br>
+<a href="platform.html">platform</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+<a href="ssl.html">ssl</a><br>
+</td><td width="25%" valign=top><a href="urllib2.html">urllib2</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#Client">Client</a>
+</font></dt><dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#JsonWrapper">JsonWrapper</a>
+</font></dt><dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#Message">Message</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#BinaryMessage">BinaryMessage</a>
+</font></dt><dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#TextMessage">TextMessage</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#Response">Response</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#ApiException">ApiException</a>
+</font></dt><dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#AuthorizationFailedException">AuthorizationFailedException</a>
+</font></dt><dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#HttpConnectionException">HttpConnectionException</a>
+</font></dt><dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#ParameterValidationException">ParameterValidationException</a>
+</font></dt><dt><font face="helvetica, arial"><a href="WebSmsComToolkit.html#UnknownResponseException">UnknownResponseException</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ApiException">class <strong>ApiException</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="exceptions.html#Exception">Exception</a>&nbsp;for&nbsp;API&nbsp;Responses&nbsp;that&nbsp;did&nbsp;not&nbsp;return&nbsp;OK.(2000&nbsp;or&nbsp;2001)<br>
+contains&nbsp;the&nbsp;API&nbsp;status&nbsp;code<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="WebSmsComToolkit.html#ApiException">ApiException</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ApiException-__init__"><strong>__init__</strong></a>(self, message, code)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#ApiException-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="ApiException-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ApiException-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ApiException-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#ApiException-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ApiException-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#ApiException-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="ApiException-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#ApiException-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ApiException-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ApiException-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#ApiException-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="ApiException-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ApiException-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="ApiException-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ApiException-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#ApiException-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="ApiException-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AuthorizationFailedException">class <strong>AuthorizationFailedException</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Authorization&nbsp;failed.&nbsp;Invalid&nbsp;or&nbsp;inactive&nbsp;Username/Password&nbsp;<br>
+in&nbsp;e.G.:&nbsp;Basic&nbsp;Authentication<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="WebSmsComToolkit.html#AuthorizationFailedException">AuthorizationFailedException</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AuthorizationFailedException-__init__"><strong>__init__</strong></a>(self, message, code<font color="#909090">=401</font>)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#AuthorizationFailedException-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="AuthorizationFailedException-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#AuthorizationFailedException-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#AuthorizationFailedException-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#AuthorizationFailedException-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#AuthorizationFailedException-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#AuthorizationFailedException-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#AuthorizationFailedException-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#AuthorizationFailedException-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="AuthorizationFailedException-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BinaryMessage">class <strong>BinaryMessage</strong></a>(<a href="WebSmsComToolkit.html#Message">Message</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Binary&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;for&nbsp;sending&nbsp;binary&nbsp;segments&nbsp;over&nbsp;<a href="#Client">Client</a>.<br>
+Compared&nbsp;to&nbsp;the&nbsp;<a href="#TextMessage">TextMessage</a>&nbsp;class,&nbsp;a&nbsp;<a href="#BinaryMessage">BinaryMessage</a>&nbsp;contains&nbsp;its&nbsp;message&nbsp;content&nbsp;as&nbsp;a&nbsp;list&nbsp;of&nbsp;message&nbsp;segments.<br>
+Therefore&nbsp;when&nbsp;sending&nbsp;a&nbsp;<a href="#BinaryMessage">BinaryMessage</a>&nbsp;'maxSmsPerMessage'&nbsp;parameter&nbsp;is&nbsp;not&nbsp;supported<br>
+&nbsp;<br>
+Example&nbsp;for&nbsp;creating&nbsp;binary&nbsp;message&nbsp;<a href="__builtin__.html#object">object</a>:<br>
+&nbsp;<br>
+&nbsp;&nbsp;message&nbsp;=&nbsp;WebSmsComToolkit.<a href="#BinaryMessage">BinaryMessage</a>([4367612345678L,&nbsp;43676123456789L],&nbsp;["BQAD/AIBWnVzYW1tZW4=","BQAD/AICZ2Vmw7xndC4="],&nbsp;True)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="WebSmsComToolkit.html#BinaryMessage">BinaryMessage</a></dd>
+<dd><a href="WebSmsComToolkit.html#Message">Message</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BinaryMessage-__init__"><strong>__init__</strong></a>(self, recipients, message_content, user_data_header_present<font color="#909090">=False</font>)</dt><dd><tt>Constructor<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;recipients&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;list&nbsp;of&nbsp;long<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;message_content&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;list&nbsp;of&nbsp;string/unicode&nbsp;(containing&nbsp;binary&nbsp;encoded&nbsp;with&nbsp;base64)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;user_data_header_present:&nbsp;bool<br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_message_content"><strong>get_message_content</strong></a>(self)</dt><dd><tt>Get&nbsp;message_content<br>
+&nbsp;<br>
+Returns:&nbsp;messageContent&nbsp;(list&nbsp;of&nbsp;string/unicode)&nbsp;set&nbsp;for&nbsp;this&nbsp;message&nbsp;obejct</tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_user_data_header_present"><strong>get_user_data_header_present</strong></a>(self)</dt><dd><tt>Get&nbsp;user_data_header_present<br>
+&nbsp;<br>
+Returns:&nbsp;userDataHeaderPresent&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;(bool)</tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_message_content"><strong>set_message_content</strong></a>(self, message_content)</dt><dd><tt>Set&nbsp;message_content<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;message_content&nbsp;(list&nbsp;of&nbsp;string/unicode&nbsp;containing&nbsp;base64&nbsp;encoded&nbsp;binary)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.G.:&nbsp;message.<a href="#BinaryMessage-message_content">message_content</a>(['BQAD/AIBWnVzYW1tZW4=','BQAD/AICZ2Vmw7xndC4=']);<br>
+&nbsp;<br>
+Returns:&nbsp;messageContent&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_user_data_header_present"><strong>set_user_data_header_present</strong></a>(self, userDataHeaderPresent)</dt><dd><tt>Set&nbsp;<a href="#BinaryMessage-user_data_header_present">user_data_header_present</a>(userDataHeaderPresent)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;userDataHeaderPresent:&nbsp;(bool)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set&nbsp;it&nbsp;to&nbsp;True&nbsp;when&nbsp;the&nbsp;binary&nbsp;that&nbsp;was&nbsp;base64&nbsp;encoded&nbsp;contained&nbsp;user&nbsp;a&nbsp;data&nbsp;header<br>
+&nbsp;<br>
+Returns:&nbsp;userDataHeaderPresent&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>message_content</strong></dt>
+<dd><tt>Get&nbsp;message_content<br>
+&nbsp;<br>
+Returns:&nbsp;messageContent&nbsp;(list&nbsp;of&nbsp;string/unicode)&nbsp;set&nbsp;for&nbsp;this&nbsp;message&nbsp;obejct</tt></dd>
+</dl>
+<dl><dt><strong>user_data_header_present</strong></dt>
+<dd><tt>Get&nbsp;user_data_header_present<br>
+&nbsp;<br>
+Returns:&nbsp;userDataHeaderPresent&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object&nbsp;(bool)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="WebSmsComToolkit.html#Message">Message</a>:<br>
+<dl><dt><a name="BinaryMessage-check_recipient_address_list"><strong>check_recipient_address_list</strong></a>(self, recipientAddressList)</dt><dd><tt>Used&nbsp;internally&nbsp;to&nbsp;check&nbsp;validity&nbsp;of&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)</tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-data"><strong>data</strong></a>(self)</dt><dd><tt>Read&nbsp;message&nbsp;<a href="#BinaryMessage-data">data</a>()<br>
+&nbsp;<br>
+Returns:&nbsp;dict&nbsp;representation&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;(only&nbsp;set&nbsp;values)</tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_client_message_id"><strong>get_client_message_id</strong></a>(self)</dt><dd><tt>Get&nbsp;client_message_id<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_notification_callback_url"><strong>get_notification_callback_url</strong></a>(self)</dt><dd><tt>Get&nbsp;notification_callback_url<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_priority"><strong>get_priority</strong></a>(self)</dt><dd><tt>Get&nbsp;priority<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_recipient_address_list"><strong>get_recipient_address_list</strong></a>(self)</dt><dd><tt>Get&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)&nbsp;from&nbsp;message<br>
+Returns:&nbsp;list</tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_send_as_flash_sms"><strong>get_send_as_flash_sms</strong></a>(self)</dt><dd><tt>Get&nbsp;send_as_flash_sms<br>
+returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_sender_address"><strong>get_sender_address</strong></a>(self)</dt><dd><tt>Get&nbsp;sender_address&nbsp;from&nbsp;message<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-get_sender_address_type"><strong>get_sender_address_type</strong></a>(self)</dt><dd><tt>Get&nbsp;sender_address_type<br>
+&nbsp;<br>
+Returns:&nbsp;a&nbsp;string&nbsp;of&nbsp;['national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode']</tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_client_message_id"><strong>set_client_message_id</strong></a>(self, clientMessageId)</dt><dd><tt>Set&nbsp;<a href="#BinaryMessage-client_message_id">client_message_id</a>(string)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;clientMessageId:&nbsp;string&nbsp;with&nbsp;message&nbsp;id&nbsp;for&nbsp;this&nbsp;message.&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;message&nbsp;id&nbsp;is&nbsp;returned&nbsp;with&nbsp;the&nbsp;response&nbsp;to&nbsp;the&nbsp;send&nbsp;request<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;used&nbsp;for&nbsp;notifications<br>
+&nbsp;<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_notification_callback_url"><strong>set_notification_callback_url</strong></a>(self, notificationCallbackUrl)</dt><dd><tt>Set&nbsp;notification_callback_url<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;notificationCallbackUrl:&nbsp;string&nbsp;of&nbsp;notification&nbsp;callback&nbsp;URI<br>
+&nbsp;&nbsp;customers&nbsp;URI&nbsp;that&nbsp;listens&nbsp;for&nbsp;delivery&nbsp;report&nbsp;notifications<br>
+&nbsp;&nbsp;or&nbsp;replies&nbsp;for&nbsp;this&nbsp;message<br>
+&nbsp;&nbsp;<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_priority"><strong>set_priority</strong></a>(self, priority)</dt><dd><tt>Set&nbsp;<a href="#BinaryMessage-priority">priority</a>(priority)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;priority:&nbsp;message&nbsp;priority&nbsp;as&nbsp;integer&nbsp;(1&nbsp;to&nbsp;9)<br>
+&nbsp;&nbsp;(level&nbsp;height&nbsp;must&nbsp;be&nbsp;supported&nbsp;by&nbsp;account&nbsp;settings)<br>
+&nbsp;<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_recipient_address_list"><strong>set_recipient_address_list</strong></a>(self, recipients)</dt><dd><tt>Set&nbsp;<a href="#BinaryMessage-recipient_address_list">recipient_address_list</a>(recipients)<br>
+Params:&nbsp;-&nbsp;recipients:&nbsp;&nbsp;(list&nbsp;of&nbsp;long&nbsp;containing&nbsp;full&nbsp;international&nbsp;MSISDNs)&nbsp;e.G.:&nbsp;[4367612345678L,&nbsp;long("4912345678")]<br>
+Throws:&nbsp;-&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_send_as_flash_sms"><strong>set_send_as_flash_sms</strong></a>(self, sendAsFlashSms)</dt><dd><tt>Set&nbsp;<a href="#BinaryMessage-send_as_flash_sms">send_as_flash_sms</a>(bool)<br>
+&nbsp;<br>
+Params:&nbsp;&nbsp;boolean:&nbsp;True,&nbsp;False&nbsp;or&nbsp;None<br>
+&nbsp;<br>
+Returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_sender_address"><strong>set_sender_address</strong></a>(self, senderAddress)</dt><dd><tt>Set&nbsp;sender_address<br>
+available&nbsp;sender&nbsp;address&nbsp;is&nbsp;dependend&nbsp;on&nbsp;user&nbsp;account<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;senderAddress:&nbsp;string&nbsp;of&nbsp;sender&nbsp;address&nbsp;(msisdn&nbsp;or&nbsp;alphanumeric)<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="BinaryMessage-set_sender_address_type"><strong>set_sender_address_type</strong></a>(self, senderAddressType)</dt><dd><tt>Set&nbsp;sender_address_type<br>
+&nbsp;&nbsp;available&nbsp;one&nbsp;of:&nbsp;('national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode')<br>
+&nbsp;<br>
+Returns:&nbsp;sender_adress_type&nbsp;&nbsp;set<br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="WebSmsComToolkit.html#Message">Message</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>client_message_id</strong></dt>
+<dd><tt>Get&nbsp;client_message_id<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>notification_callback_url</strong></dt>
+<dd><tt>Get&nbsp;notification_callback_url<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>priority</strong></dt>
+<dd><tt>Get&nbsp;priority<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>recipient_address_list</strong></dt>
+<dd><tt>Get&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)&nbsp;from&nbsp;message<br>
+Returns:&nbsp;list</tt></dd>
+</dl>
+<dl><dt><strong>send_as_flash_sms</strong></dt>
+<dd><tt>Get&nbsp;send_as_flash_sms<br>
+returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>sender_address</strong></dt>
+<dd><tt>Get&nbsp;sender_address&nbsp;from&nbsp;message<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>sender_address_type</strong></dt>
+<dd><tt>Get&nbsp;sender_address_type<br>
+&nbsp;<br>
+Returns:&nbsp;a&nbsp;string&nbsp;of&nbsp;['national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode']</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="WebSmsComToolkit.html#Message">Message</a>:<br>
+<dl><dt><strong>availableSenderAdressType</strong> = ['national', 'international', 'alphanumeric', 'shortcode']</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Client">class <strong>Client</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Client">Client</a>&nbsp;used&nbsp;to&nbsp;send&nbsp;sms&nbsp;messages&nbsp;(<a href="#TextMessage">TextMessage</a>&nbsp;or&nbsp;<a href="#BinaryMessage">BinaryMessage</a>&nbsp;objects)<br>
+Create&nbsp;once&nbsp;and&nbsp;send&nbsp;messages&nbsp;with&nbsp;its&nbsp;<a href="#Client-send">send</a>()&nbsp;method<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;client&nbsp;=&nbsp;WebSmsComToolkit.<a href="#Client">Client</a>('<a href="http://api.websms.com/">http://api.websms.com/</a>',&nbsp;username,&nbsp;password)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Client-__init__"><strong>__init__</strong></a>(self, url_base, username, password)</dt><dd><tt>Constructor&nbsp;requiring&nbsp;base&nbsp;url,&nbsp;username&nbsp;and&nbsp;password<br>
+You&nbsp;only&nbsp;need&nbsp;to&nbsp;create&nbsp;the&nbsp;client&nbsp;once.</tt></dd></dl>
+
+<dl><dt><a name="Client-get_timeout"><strong>get_timeout</strong></a>(self)</dt><dd><tt>Get&nbsp;timeout&nbsp;of&nbsp;urllib2&nbsp;client<br>
+&nbsp;<br>
+Returns:&nbsp;seconds&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Client-get_verbose"><strong>get_verbose</strong></a>(self)</dt><dd><tt>Get&nbsp;verbose&nbsp;mode&nbsp;of&nbsp;<a href="#Client">Client</a><br>
+&nbsp;<br>
+Returns:&nbsp;verbose&nbsp;mode&nbsp;(bool)</tt></dd></dl>
+
+<dl><dt><a name="Client-send"><strong>send</strong></a>(self, message_object<font color="#909090">=None</font>, max_sms_per_message<font color="#909090">=None</font>, is_test<font color="#909090">=None</font>)</dt><dd><tt>Send&nbsp;message&nbsp;to&nbsp;websms.com&nbsp;API<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;message_object&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Must&nbsp;be&nbsp;instanceof&nbsp;<a href="#TextMessage">TextMessage</a>&nbsp;or&nbsp;<a href="#BinaryMessage">BinaryMessage</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;max_sms_per_message&nbsp;:&nbsp;int&nbsp;(1-255)&nbsp;)limiting&nbsp;the&nbsp;maximum&nbsp;set&nbsp;sms&nbsp;per&nbsp;message&nbsp;(For&nbsp;<a href="#TextMessage">TextMessage</a>.&nbsp;Set&nbsp;it&nbsp;to&nbsp;None&nbsp;for&nbsp;<a href="#BinaryMessage">BinaryMessage</a>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;is_test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;bool&nbsp;indicating&nbsp;if&nbsp;message&nbsp;is&nbsp;a&nbsp;test&nbsp;message&nbsp;(False&nbsp;is&nbsp;default).&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test&nbsp;Messages&nbsp;will&nbsp;not&nbsp;be&nbsp;sent,&nbsp;but&nbsp;generate&nbsp;a&nbsp;successful&nbsp;response.<br>
+Returns:&nbsp;-&nbsp;response&nbsp;of&nbsp;type&nbsp;<a href="#Response">Response</a><br>
+&nbsp;<br>
+Throws:&nbsp;-&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<a href="#AuthorizationFailedException">AuthorizationFailedException</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<a href="#ApiException">ApiException</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<a href="#HttpConnectionException">HttpConnectionException</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<a href="exceptions.html#Exception">Exception</a></tt></dd></dl>
+
+<dl><dt><a name="Client-set_timeout"><strong>set_timeout</strong></a>(self, seconds)</dt><dd><tt>Set&nbsp;timeout&nbsp;of&nbsp;urllib2&nbsp;&nbsp;(default&nbsp;is&nbsp;10)<br>
+&nbsp;<br>
+!ATTENTION!&nbsp;<br>
+Will&nbsp;only&nbsp;work&nbsp;for&nbsp;python&nbsp;2.6+,&nbsp;The&nbsp;optional&nbsp;timeout&nbsp;parameter&nbsp;specifies&nbsp;a&nbsp;timeout&nbsp;in&nbsp;<br>
+seconds&nbsp;for&nbsp;blocking&nbsp;operations&nbsp;like&nbsp;the&nbsp;connection&nbsp;attempt.<br>
+&nbsp;<br>
+For&nbsp;python&nbsp;&lt;2.6,&nbsp;the&nbsp;global&nbsp;default&nbsp;timeout&nbsp;setting&nbsp;can&nbsp;be&nbsp;used,&nbsp;<br>
+but&nbsp;are&nbsp;not&nbsp;affected&nbsp;by&nbsp;this&nbsp;timeout<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;seconds&nbsp;(int)<br>
+&nbsp;<br>
+Returns:&nbsp;seconds&nbsp;set</tt></dd></dl>
+
+<dl><dt><a name="Client-set_verbose"><strong>set_verbose</strong></a>(self, bool_verbose)</dt><dd><tt>Set&nbsp;verbose&nbsp;mode&nbsp;of&nbsp;<a href="#Client">Client</a><br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;bool_verbose&nbsp;(boolean)<br>
+&nbsp;<br>
+Returns:&nbsp;verbose&nbsp;mode&nbsp;set</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>timeout</strong></dt>
+<dd><tt>Get&nbsp;timeout&nbsp;of&nbsp;urllib2&nbsp;client<br>
+&nbsp;<br>
+Returns:&nbsp;seconds&nbsp;(int)</tt></dd>
+</dl>
+<dl><dt><strong>verbose</strong></dt>
+<dd><tt>verbose&nbsp;mode</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>VERSION</strong> = '1.0.0'</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HttpConnectionException">class <strong>HttpConnectionException</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>HTTP&nbsp;Connection&nbsp;failed.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="WebSmsComToolkit.html#HttpConnectionException">HttpConnectionException</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="HttpConnectionException-__init__"><strong>__init__</strong></a>(self, message, code<font color="#909090">=0</font>)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#HttpConnectionException-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="HttpConnectionException-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#HttpConnectionException-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="HttpConnectionException-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#HttpConnectionException-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="HttpConnectionException-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#HttpConnectionException-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="HttpConnectionException-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#HttpConnectionException-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="HttpConnectionException-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="HttpConnectionException-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#HttpConnectionException-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="HttpConnectionException-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#HttpConnectionException-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="HttpConnectionException-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="HttpConnectionException-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#HttpConnectionException-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="HttpConnectionException-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="JsonWrapper">class <strong>JsonWrapper</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;offer&nbsp;a&nbsp;custom&nbsp;'loads'&nbsp;and&nbsp;'dumps'&nbsp;function&nbsp;for&nbsp;JSON&nbsp;by&nbsp;overwriting&nbsp;it<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="JsonWrapper-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="JsonWrapper-dumps"><strong>dumps</strong></a>(self, param)</dt></dl>
+
+<dl><dt><a name="JsonWrapper-loads"><strong>loads</strong></a>(self, param)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Message">class <strong>Message</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Abstract&nbsp;Base&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+inherited&nbsp;by&nbsp;<a href="#TextMessage">TextMessage</a>&nbsp;and&nbsp;<a href="#BinaryMessage">BinaryMessage</a><br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Message-__init__"><strong>__init__</strong></a>(self, recipients)</dt></dl>
+
+<dl><dt><a name="Message-check_recipient_address_list"><strong>check_recipient_address_list</strong></a>(self, recipientAddressList)</dt><dd><tt>Used&nbsp;internally&nbsp;to&nbsp;check&nbsp;validity&nbsp;of&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)</tt></dd></dl>
+
+<dl><dt><a name="Message-data"><strong>data</strong></a>(self)</dt><dd><tt>Read&nbsp;message&nbsp;<a href="#Message-data">data</a>()<br>
+&nbsp;<br>
+Returns:&nbsp;dict&nbsp;representation&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;(only&nbsp;set&nbsp;values)</tt></dd></dl>
+
+<dl><dt><a name="Message-get_client_message_id"><strong>get_client_message_id</strong></a>(self)</dt><dd><tt>Get&nbsp;client_message_id<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Message-get_notification_callback_url"><strong>get_notification_callback_url</strong></a>(self)</dt><dd><tt>Get&nbsp;notification_callback_url<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Message-get_priority"><strong>get_priority</strong></a>(self)</dt><dd><tt>Get&nbsp;priority<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Message-get_recipient_address_list"><strong>get_recipient_address_list</strong></a>(self)</dt><dd><tt>Get&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)&nbsp;from&nbsp;message<br>
+Returns:&nbsp;list</tt></dd></dl>
+
+<dl><dt><a name="Message-get_send_as_flash_sms"><strong>get_send_as_flash_sms</strong></a>(self)</dt><dd><tt>Get&nbsp;send_as_flash_sms<br>
+returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Message-get_sender_address"><strong>get_sender_address</strong></a>(self)</dt><dd><tt>Get&nbsp;sender_address&nbsp;from&nbsp;message<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Message-get_sender_address_type"><strong>get_sender_address_type</strong></a>(self)</dt><dd><tt>Get&nbsp;sender_address_type<br>
+&nbsp;<br>
+Returns:&nbsp;a&nbsp;string&nbsp;of&nbsp;['national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode']</tt></dd></dl>
+
+<dl><dt><a name="Message-set_client_message_id"><strong>set_client_message_id</strong></a>(self, clientMessageId)</dt><dd><tt>Set&nbsp;<a href="#Message-client_message_id">client_message_id</a>(string)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;clientMessageId:&nbsp;string&nbsp;with&nbsp;message&nbsp;id&nbsp;for&nbsp;this&nbsp;message.&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;message&nbsp;id&nbsp;is&nbsp;returned&nbsp;with&nbsp;the&nbsp;response&nbsp;to&nbsp;the&nbsp;send&nbsp;request<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;used&nbsp;for&nbsp;notifications<br>
+&nbsp;<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="Message-set_notification_callback_url"><strong>set_notification_callback_url</strong></a>(self, notificationCallbackUrl)</dt><dd><tt>Set&nbsp;notification_callback_url<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;notificationCallbackUrl:&nbsp;string&nbsp;of&nbsp;notification&nbsp;callback&nbsp;URI<br>
+&nbsp;&nbsp;customers&nbsp;URI&nbsp;that&nbsp;listens&nbsp;for&nbsp;delivery&nbsp;report&nbsp;notifications<br>
+&nbsp;&nbsp;or&nbsp;replies&nbsp;for&nbsp;this&nbsp;message<br>
+&nbsp;&nbsp;<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="Message-set_priority"><strong>set_priority</strong></a>(self, priority)</dt><dd><tt>Set&nbsp;<a href="#Message-priority">priority</a>(priority)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;priority:&nbsp;message&nbsp;priority&nbsp;as&nbsp;integer&nbsp;(1&nbsp;to&nbsp;9)<br>
+&nbsp;&nbsp;(level&nbsp;height&nbsp;must&nbsp;be&nbsp;supported&nbsp;by&nbsp;account&nbsp;settings)<br>
+&nbsp;<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="Message-set_recipient_address_list"><strong>set_recipient_address_list</strong></a>(self, recipients)</dt><dd><tt>Set&nbsp;<a href="#Message-recipient_address_list">recipient_address_list</a>(recipients)<br>
+Params:&nbsp;-&nbsp;recipients:&nbsp;&nbsp;(list&nbsp;of&nbsp;long&nbsp;containing&nbsp;full&nbsp;international&nbsp;MSISDNs)&nbsp;e.G.:&nbsp;[4367612345678L,&nbsp;long("4912345678")]<br>
+Throws:&nbsp;-&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="Message-set_send_as_flash_sms"><strong>set_send_as_flash_sms</strong></a>(self, sendAsFlashSms)</dt><dd><tt>Set&nbsp;<a href="#Message-send_as_flash_sms">send_as_flash_sms</a>(bool)<br>
+&nbsp;<br>
+Params:&nbsp;&nbsp;boolean:&nbsp;True,&nbsp;False&nbsp;or&nbsp;None<br>
+&nbsp;<br>
+Returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Message-set_sender_address"><strong>set_sender_address</strong></a>(self, senderAddress)</dt><dd><tt>Set&nbsp;sender_address<br>
+available&nbsp;sender&nbsp;address&nbsp;is&nbsp;dependend&nbsp;on&nbsp;user&nbsp;account<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;senderAddress:&nbsp;string&nbsp;of&nbsp;sender&nbsp;address&nbsp;(msisdn&nbsp;or&nbsp;alphanumeric)<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="Message-set_sender_address_type"><strong>set_sender_address_type</strong></a>(self, senderAddressType)</dt><dd><tt>Set&nbsp;sender_address_type<br>
+&nbsp;&nbsp;available&nbsp;one&nbsp;of:&nbsp;('national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode')<br>
+&nbsp;<br>
+Returns:&nbsp;sender_adress_type&nbsp;&nbsp;set<br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>client_message_id</strong></dt>
+<dd><tt>Get&nbsp;client_message_id<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>notification_callback_url</strong></dt>
+<dd><tt>Get&nbsp;notification_callback_url<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>priority</strong></dt>
+<dd><tt>Get&nbsp;priority<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>recipient_address_list</strong></dt>
+<dd><tt>Get&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)&nbsp;from&nbsp;message<br>
+Returns:&nbsp;list</tt></dd>
+</dl>
+<dl><dt><strong>send_as_flash_sms</strong></dt>
+<dd><tt>Get&nbsp;send_as_flash_sms<br>
+returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>sender_address</strong></dt>
+<dd><tt>Get&nbsp;sender_address&nbsp;from&nbsp;message<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>sender_address_type</strong></dt>
+<dd><tt>Get&nbsp;sender_address_type<br>
+&nbsp;<br>
+Returns:&nbsp;a&nbsp;string&nbsp;of&nbsp;['national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode']</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>availableSenderAdressType</strong> = ['national', 'international', 'alphanumeric', 'shortcode']</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ParameterValidationException">class <strong>ParameterValidationException</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Some&nbsp;parameter&nbsp;given&nbsp;is&nbsp;invalid<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="WebSmsComToolkit.html#ParameterValidationException">ParameterValidationException</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ParameterValidationException-__init__"><strong>__init__</strong></a>(self, message, code<font color="#909090">=0</font>)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#ParameterValidationException-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="ParameterValidationException-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ParameterValidationException-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ParameterValidationException-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#ParameterValidationException-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ParameterValidationException-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#ParameterValidationException-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="ParameterValidationException-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#ParameterValidationException-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ParameterValidationException-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ParameterValidationException-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#ParameterValidationException-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="ParameterValidationException-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ParameterValidationException-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="ParameterValidationException-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ParameterValidationException-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#ParameterValidationException-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="ParameterValidationException-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Response">class <strong>Response</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Response">Response</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;returned&nbsp;by&nbsp;<a href="#Client">Client</a><br>
+Offers&nbsp;properties:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;rawContent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;response&nbsp;content&nbsp;of&nbsp;send&nbsp;request&nbsp;(unicode)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;statusCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;status&nbsp;code&nbsp;returned&nbsp;from&nbsp;API&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;statusMessage&nbsp;&nbsp;&nbsp;:&nbsp;description&nbsp;of&nbsp;status&nbsp;code&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;transferId&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;id&nbsp;of&nbsp;the&nbsp;message&nbsp;transfer&nbsp;to&nbsp;the&nbsp;API&nbsp;(unicode)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;clientMessageId&nbsp;:&nbsp;the&nbsp;message&nbsp;id&nbsp;(unicode)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Response-__init__"><strong>__init__</strong></a>(self, raw_content, statusCode, statusMessage, transferId, clientMessageId<font color="#909090">=None</font>)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TextMessage">class <strong>TextMessage</strong></a>(<a href="WebSmsComToolkit.html#Message">Message</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Text&nbsp;<a href="#Message">Message</a>&nbsp;Class&nbsp;for&nbsp;sending&nbsp;utf8&nbsp;text&nbsp;message&nbsp;over&nbsp;<a href="#Client">Client</a>.<br>
+Compared&nbsp;to&nbsp;the&nbsp;<a href="#BinaryMessage">BinaryMessage</a>&nbsp;class,&nbsp;a&nbsp;<a href="#TextMessage">TextMessage</a>&nbsp;has&nbsp;one&nbsp;messageContent&nbsp;that&nbsp;will&nbsp;be&nbsp;sent&nbsp;as&nbsp;one&nbsp;or&nbsp;multiple&nbsp;sms.<br>
+The&nbsp;'maxSmsPerMessage'&nbsp;parameter&nbsp;when&nbsp;sending&nbsp;the&nbsp;message&nbsp;limits&nbsp;the&nbsp;generated&nbsp;sms&nbsp;amount<br>
+&nbsp;<br>
+Example&nbsp;for&nbsp;creating&nbsp;message&nbsp;<a href="__builtin__.html#object">object</a>:&nbsp;<br>
+&nbsp;<br>
+&nbsp;&nbsp;message&nbsp;=&nbsp;WebSmsComToolkit.<a href="#TextMessage">TextMessage</a>([4367612345678L,43676123456789L],&nbsp;u'Hallo&nbsp;Welt')<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="WebSmsComToolkit.html#TextMessage">TextMessage</a></dd>
+<dd><a href="WebSmsComToolkit.html#Message">Message</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="TextMessage-__init__"><strong>__init__</strong></a>(self, recipients, message_content)</dt><dd><tt>Constructor<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;recipients&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;list&nbsp;of&nbsp;long&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;message_content&nbsp;:&nbsp;unicode<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Throws&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_message_content"><strong>get_message_content</strong></a>(self)</dt><dd><tt>Get&nbsp;message_content<br>
+&nbsp;<br>
+Returns:&nbsp;messageContent&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_message_content"><strong>set_message_content</strong></a>(self, message_content)</dt><dd><tt>Set&nbsp;<a href="#TextMessage-message_content">message_content</a>(unicode)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;message_content:&nbsp;unicode&nbsp;string<br>
+&nbsp;<br>
+Returns:&nbsp;set&nbsp;messageContent&nbsp;of&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>message_content</strong></dt>
+<dd><tt>Get&nbsp;message_content<br>
+&nbsp;<br>
+Returns:&nbsp;messageContent&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="WebSmsComToolkit.html#Message">Message</a>:<br>
+<dl><dt><a name="TextMessage-check_recipient_address_list"><strong>check_recipient_address_list</strong></a>(self, recipientAddressList)</dt><dd><tt>Used&nbsp;internally&nbsp;to&nbsp;check&nbsp;validity&nbsp;of&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)</tt></dd></dl>
+
+<dl><dt><a name="TextMessage-data"><strong>data</strong></a>(self)</dt><dd><tt>Read&nbsp;message&nbsp;<a href="#TextMessage-data">data</a>()<br>
+&nbsp;<br>
+Returns:&nbsp;dict&nbsp;representation&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;(only&nbsp;set&nbsp;values)</tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_client_message_id"><strong>get_client_message_id</strong></a>(self)</dt><dd><tt>Get&nbsp;client_message_id<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_notification_callback_url"><strong>get_notification_callback_url</strong></a>(self)</dt><dd><tt>Get&nbsp;notification_callback_url<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_priority"><strong>get_priority</strong></a>(self)</dt><dd><tt>Get&nbsp;priority<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_recipient_address_list"><strong>get_recipient_address_list</strong></a>(self)</dt><dd><tt>Get&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)&nbsp;from&nbsp;message<br>
+Returns:&nbsp;list</tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_send_as_flash_sms"><strong>get_send_as_flash_sms</strong></a>(self)</dt><dd><tt>Get&nbsp;send_as_flash_sms<br>
+returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_sender_address"><strong>get_sender_address</strong></a>(self)</dt><dd><tt>Get&nbsp;sender_address&nbsp;from&nbsp;message<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-get_sender_address_type"><strong>get_sender_address_type</strong></a>(self)</dt><dd><tt>Get&nbsp;sender_address_type<br>
+&nbsp;<br>
+Returns:&nbsp;a&nbsp;string&nbsp;of&nbsp;['national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode']</tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_client_message_id"><strong>set_client_message_id</strong></a>(self, clientMessageId)</dt><dd><tt>Set&nbsp;<a href="#TextMessage-client_message_id">client_message_id</a>(string)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;clientMessageId:&nbsp;string&nbsp;with&nbsp;message&nbsp;id&nbsp;for&nbsp;this&nbsp;message.&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;message&nbsp;id&nbsp;is&nbsp;returned&nbsp;with&nbsp;the&nbsp;response&nbsp;to&nbsp;the&nbsp;send&nbsp;request<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;used&nbsp;for&nbsp;notifications<br>
+&nbsp;<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_notification_callback_url"><strong>set_notification_callback_url</strong></a>(self, notificationCallbackUrl)</dt><dd><tt>Set&nbsp;notification_callback_url<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;notificationCallbackUrl:&nbsp;string&nbsp;of&nbsp;notification&nbsp;callback&nbsp;URI<br>
+&nbsp;&nbsp;customers&nbsp;URI&nbsp;that&nbsp;listens&nbsp;for&nbsp;delivery&nbsp;report&nbsp;notifications<br>
+&nbsp;&nbsp;or&nbsp;replies&nbsp;for&nbsp;this&nbsp;message<br>
+&nbsp;&nbsp;<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_priority"><strong>set_priority</strong></a>(self, priority)</dt><dd><tt>Set&nbsp;<a href="#TextMessage-priority">priority</a>(priority)<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;priority:&nbsp;message&nbsp;priority&nbsp;as&nbsp;integer&nbsp;(1&nbsp;to&nbsp;9)<br>
+&nbsp;&nbsp;(level&nbsp;height&nbsp;must&nbsp;be&nbsp;supported&nbsp;by&nbsp;account&nbsp;settings)<br>
+&nbsp;<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_recipient_address_list"><strong>set_recipient_address_list</strong></a>(self, recipients)</dt><dd><tt>Set&nbsp;<a href="#TextMessage-recipient_address_list">recipient_address_list</a>(recipients)<br>
+Params:&nbsp;-&nbsp;recipients:&nbsp;&nbsp;(list&nbsp;of&nbsp;long&nbsp;containing&nbsp;full&nbsp;international&nbsp;MSISDNs)&nbsp;e.G.:&nbsp;[4367612345678L,&nbsp;long("4912345678")]<br>
+Throws:&nbsp;-&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_send_as_flash_sms"><strong>set_send_as_flash_sms</strong></a>(self, sendAsFlashSms)</dt><dd><tt>Set&nbsp;<a href="#TextMessage-send_as_flash_sms">send_as_flash_sms</a>(bool)<br>
+&nbsp;<br>
+Params:&nbsp;&nbsp;boolean:&nbsp;True,&nbsp;False&nbsp;or&nbsp;None<br>
+&nbsp;<br>
+Returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_sender_address"><strong>set_sender_address</strong></a>(self, senderAddress)</dt><dd><tt>Set&nbsp;sender_address<br>
+available&nbsp;sender&nbsp;address&nbsp;is&nbsp;dependend&nbsp;on&nbsp;user&nbsp;account<br>
+&nbsp;<br>
+Params:&nbsp;-&nbsp;senderAddress:&nbsp;string&nbsp;of&nbsp;sender&nbsp;address&nbsp;(msisdn&nbsp;or&nbsp;alphanumeric)<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;<a href="#Message">Message</a>&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<dl><dt><a name="TextMessage-set_sender_address_type"><strong>set_sender_address_type</strong></a>(self, senderAddressType)</dt><dd><tt>Set&nbsp;sender_address_type<br>
+&nbsp;&nbsp;available&nbsp;one&nbsp;of:&nbsp;('national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode')<br>
+&nbsp;<br>
+Returns:&nbsp;sender_adress_type&nbsp;&nbsp;set<br>
+&nbsp;<br>
+Throws:&nbsp;<a href="#ParameterValidationException">ParameterValidationException</a></tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="WebSmsComToolkit.html#Message">Message</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>client_message_id</strong></dt>
+<dd><tt>Get&nbsp;client_message_id<br>
+Returns:&nbsp;clientMessaegId&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>notification_callback_url</strong></dt>
+<dd><tt>Get&nbsp;notification_callback_url<br>
+Returns:&nbsp;set&nbsp;notificationCallbackUrl&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>priority</strong></dt>
+<dd><tt>Get&nbsp;priority<br>
+Returns:&nbsp;priority&nbsp;set&nbsp;for&nbsp;this&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>recipient_address_list</strong></dt>
+<dd><tt>Get&nbsp;recipient_address_list&nbsp;(list&nbsp;of&nbsp;long)&nbsp;from&nbsp;message<br>
+Returns:&nbsp;list</tt></dd>
+</dl>
+<dl><dt><strong>send_as_flash_sms</strong></dt>
+<dd><tt>Get&nbsp;send_as_flash_sms<br>
+returns:&nbsp;set&nbsp;sendAsFlashSms&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>sender_address</strong></dt>
+<dd><tt>Get&nbsp;sender_address&nbsp;from&nbsp;message<br>
+&nbsp;<br>
+Returns:&nbsp;senderAddress&nbsp;of&nbsp;Message&nbsp;object</tt></dd>
+</dl>
+<dl><dt><strong>sender_address_type</strong></dt>
+<dd><tt>Get&nbsp;sender_address_type<br>
+&nbsp;<br>
+Returns:&nbsp;a&nbsp;string&nbsp;of&nbsp;['national',&nbsp;'international',&nbsp;'alphanumeric'&nbsp;or&nbsp;'shortcode']</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="WebSmsComToolkit.html#Message">Message</a>:<br>
+<dl><dt><strong>availableSenderAdressType</strong> = ['national', 'international', 'alphanumeric', 'shortcode']</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UnknownResponseException">class <strong>UnknownResponseException</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Response">Response</a>&nbsp;is&nbsp;unknown<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="WebSmsComToolkit.html#UnknownResponseException">UnknownResponseException</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UnknownResponseException-__init__"><strong>__init__</strong></a>(self, message, code<font color="#909090">=0</font>)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#UnknownResponseException-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="UnknownResponseException-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#UnknownResponseException-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="UnknownResponseException-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#UnknownResponseException-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="UnknownResponseException-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#UnknownResponseException-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="UnknownResponseException-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#UnknownResponseException-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="UnknownResponseException-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="UnknownResponseException-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#UnknownResponseException-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="UnknownResponseException-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#UnknownResponseException-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="UnknownResponseException-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="UnknownResponseException-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#UnknownResponseException-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="UnknownResponseException-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-warn"><strong>warn</strong></a>(...)</dt><dd><tt>Issue&nbsp;a&nbsp;warning,&nbsp;or&nbsp;maybe&nbsp;ignore&nbsp;it&nbsp;or&nbsp;raise&nbsp;an&nbsp;exception.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__author__</strong> = 'Gerd Reifenauer'<br>
+<strong>__version__</strong> = '1.0.0'<br>
+<strong>hexversion</strong> = 34014192</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Gerd&nbsp;Reifenauer</td></tr></table>
+</body></html>
