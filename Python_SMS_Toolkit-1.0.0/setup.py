@@ -5,15 +5,17 @@ from sys import version
 
 setup_param = {
     'name'            :'WebSmsComToolkit',
-    'version'         : '1.0.0',
+    'version'         : '1.0.1',
     'py_modules'      : ['WebSmsComToolkit'],
-    'url'             : 'http://websms.com/',
-    'download_url'    : 'http://websms.com/entwickler/skriptsprachen/python-toolkit',
+    'url'             : 'https://developer.websms.com/',
+    'download_url'    : 'https://websms.at/entwickler/sdks#python-toolkit-uebersicht',
     'author'          : "Gerd Reifenauer",
     'author_email'    : "gerd.reifenauer@ut11.net",
     'description'     : 'Websms.com Toolkit to send SMS messages',
-    'long_description':  """This script uses the json/simplejson module to send data to the WebSms.com API.
-Will use json module if available or requires simplejson as dependency""".strip(),
+    'long_description':  """This simple single module can be used to send data to the WebSms.com API.
+No module dependencies for Python >= 2.6.
+Lower versions will need ssl, json (or simplejson) module. 
+Overwriting Json decoder/encoder usage is possible.""",
     'classifiers'     : [ 'Development Status :: 4 - Beta',
                           'License :: OSI Approved :: MIT License',
                           'Programming Language :: Python',

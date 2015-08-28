@@ -3,6 +3,28 @@
 #
 #  @author Gerd Reifenauer
 #
+# MIT-License:
+#
+# Copyright Up to Eleven Digital Solutions GmbH
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to permit
+# persons to whom the Software is furnished to do so, subject to the
+# following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+# NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+# USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 # WebSmsComToolkit.py
 # A python module to send sms messages (text and binary) over api.websms.com Gateway
@@ -52,7 +74,7 @@ except Exception, e:
 '''
 
 __author__  = 'Gerd Reifenauer'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 import urllib2
 import ssl
@@ -211,11 +233,10 @@ class Message(object):
     
     Throws: ParameterValidationException
     """
-    if (senderAddress is not None):
-      if (type(senderAddress) == str):
-        self._data['senderAddress'] = senderAddress
-      else:
-        raise ParameterValidationException("sender_address '" + str(senderAddress) + "' is invalid. Must be string containing numeric or alphanumeric value");
+    if (type(senderAddress) == str or senderAddress is None):
+      self._data['senderAddress'] = senderAddress
+    else:
+      raise ParameterValidationException("sender_address '" + str(senderAddress) + "' is invalid. Must be string containing numeric or alphanumeric value");
     
     return self._data['senderAddress']
   
@@ -226,7 +247,7 @@ class Message(object):
     Get sender_address_type
     
     Returns: a string of ['national', 'international', 'alphanumeric' or 'shortcode']"""
-    self._data['senderAddressType']
+    return self._data['senderAddressType']
     
   def set_sender_address_type(self, senderAddressType):
     """
@@ -317,7 +338,7 @@ class Message(object):
     if (type(clientMessageId) == str or type(clientMessageId) == unicode or clientMessageId is None):
       self._data['clientMessageId'] = clientMessageId
     else:
-      raise ParameterValidationException("client_message_id '" + clientMessageId + "' invalid. Must be string.")
+      raise ParameterValidationException("client_message_id '" + str(clientMessageId) + "' invalid. Must be string.")
     return self._data['clientMessageId']
   
   client_message_id = property(get_client_message_id, set_client_message_id)

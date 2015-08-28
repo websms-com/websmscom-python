@@ -22,7 +22,7 @@ message_text_unicode    = u"Willkommen zur BusinessPlatform SDK von websms.com! 
 max_sms_per_message     = 1
 
 # true: do not send sms for real, just test interface
-is_test                 = True
+is_test                 = False
 #-------------------------------------------------------
 
 def main():
@@ -36,6 +36,7 @@ def main():
     # 2.) -- create text message ----------------
     message = WebSmsComToolkit.TextMessage(recipient_address_list, message_text_unicode)
 #    message = sample_message_binary_sms()
+#    max_sms_per_message = None  #needed if binary messages should be send
     
     # 3.) -- send message ------------------
     response = client.send(message, max_sms_per_message, is_test)
