@@ -13,6 +13,7 @@
   The Latest Version
   ------------------
   
+   o Version 1.0.2: fixed senderAddressType setter
    o Version 1.0.1: fixed senderAddressType getter
    o Version 1.0.0: Basic text- and binary-sms-sending.
 
