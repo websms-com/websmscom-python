@@ -1,0 +1,24 @@
+Metadata-Version: 1.1
+Name: WebSmsComToolkit
+Version: 1.0.2
+Summary: Websms.com Toolkit to send SMS messages
+Home-page: https://developer.websms.com/
+Author: Gerd Reifenauer
+Author-email: gerd.reifenauer@ut11.net
+License: UNKNOWN
+Download-URL: https://websms.at/entwickler/sdks#python-toolkit-uebersicht
+Description: This simple single module can be used to send data to the WebSms.com API.
+        No module dependencies for Python >= 2.6.
+        Lower versions will need ssl, json (or simplejson) module. 
+        Overwriting Json decoder/encoder usage is possible.
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Telecommunications Industry
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Communications
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development

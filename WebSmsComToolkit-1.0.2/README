@@ -1,0 +1,32 @@
+
+ 
+                  W E B S M S . C O M   P Y T H O N   T O O L K I T 
+
+
+  What is it?
+  -----------
+
+  A lightweight Python-client-library for using websms.com SMS services.
+  Reduces the complexity of network-communication between client and SMS gateway, 
+  to help business-customer save time and money for focusing on their business logic.
+
+  The Latest Version
+  ------------------
+  
+   o Version 1.0.1: fixed senderAddressType getter
+   o Version 1.0.0: Basic text- and binary-sms-sending.
+
+  Install
+  -------------
+  Read INSTALL file
+  
+  Documentation
+  -------------
+  The documentation available as of the date of this release is included 
+  in send_sms.py and WebSmsComToolkit.py.
+  See also WebsmsComToolkit.html or use pydoc -w ./WebSmsComToolkit.py
+  
+  Contact
+  -------
+  For any further questions into detail the contact-email is office@ut11.net.
+  
