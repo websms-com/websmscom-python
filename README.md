@@ -17,7 +17,7 @@ to help business-customer save time and money for focusing on their business log
  * Answers to SMS can be forwarded
  * Usable in modules and from command line
 
-See [websms.com](http://websms.com) website to [register](https://www.websms.com/websms-testen/) for an account.
+See [websms.com](http://websms.com) website to [register](https://account.websms.com/#/registration/contract) for an account.
 
 For general API specification of the server (programming language independent) visit: [https://api.websms.com](https://api.websms.com)
 
@@ -34,6 +34,10 @@ Read INSTALL file
 Contact
 -------
 For any further questions into detail the contact-email is sdk@websms.com
+
+Contributors
+-------
+Gerd Reifenauer ([@reifi](https://github.com/reifi))
 
 Changelog
 ---------
