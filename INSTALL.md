@@ -37,4 +37,4 @@ Go to the WebSmsComToolkit-1.0.2 directory and type:
 
 Start with
 -------------------------
-   See script send_sms.py on how to send an sms
+   See script [send_sms.py](send_sms.py) on how to send an sms
