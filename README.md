@@ -1,15 +1,17 @@
-websmscom-python
-=========
-### lightweight python client to send SMS through websms.com
+
+ 
+                  W E B S M S . C O M   P Y T H O N   T O O L K I T 
+
 
 What is it?
 -----------
-A lightweight Python-client-library for using websms.com SMS services.
-Reduces the complexity of network-communication between client and SMS gateway, 
-to help business-customer save time and money for focusing on their business logic.
 
+  A lightweight Python-client-library for using websms.com SMS services.
+  Reduces the complexity of network-communication between client and SMS gateway, 
+  to help business-customer save time and money for focusing on their business logic.
 
-#### Features:
+Features:
+---------
 
  * Text Messages
  * Binary Messages
@@ -17,28 +19,30 @@ to help business-customer save time and money for focusing on their business log
  * Answers to SMS can be forwarded
  * Usable in modules and from command line
 
-See [websms.com](http://websms.com) website to [register](https://account.websms.com/#/registration/contract) for an account.
+See [websms.com](http://websms.com) website to [register](https://account.websms.com/#/) for an account.
 
 For general API specification of the server (programming language independent) visit: [https://api.websms.com](https://api.websms.com)
 
+
+Install
+-------------
+  Read [INSTALL.md](INSTALL.md) file
+  
 Documentation
 -------------
-The documentation available as of the date of this release is included 
-in send_sms.py and WebSmsComToolkit.py.
-See also WebsmsComToolkit.html or use `pydoc -w ./WebSmsComToolkit.py`
-
-Installation
-------------
-Read INSTALL file
-
+  The documentation available as of the date of this release is included 
+  in send_sms.py and WebSmsComToolkit.py.
+  See also WebsmsComToolkit.html or use `pydoc -w ./WebSmsComToolkit.py`
+  
 Contact
 -------
-For any further questions into detail the contact-email is sdk@websms.com
+  For any further questions into detail the contact-email is developer@websms.com
 
 Contributors
--------
-Gerd Reifenauer ([@reifi](https://github.com/reifi))
+------------
 
+* Gerd Reifenauer (Author) [@reifi](https://github.com/reifi)
+   
 Changelog
 ---------
 * Version 1.0.2: fixed senderAddressType setter

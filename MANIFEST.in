@@ -1,0 +1,3 @@
+include send_sms.py
+include WebSmsComToolkit.html
+include INSTALL
