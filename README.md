@@ -31,6 +31,13 @@ Example
 -------
 See [send_sms.py](send_sms.py) for an example on how to send text and binary messages
 
+Build (optional)
+-----
+You can either use/install the version in [/WebSmsComToolkit-1.0.2](/WebSmsComToolkit-1.0.2) or 
+build your own version: `python setup.py sdist`
+
+See [create_dist.sh](create_dist.sh)
+
 Documentation
 -------------
   The documentation available as of the date of this release is included 
