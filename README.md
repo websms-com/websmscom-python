@@ -23,11 +23,14 @@ See [websms.com](http://websms.com) website to [register](https://account.websms
 
 For general API specification of the server (programming language independent) visit: [https://api.websms.com](https://api.websms.com)
 
-
 Install
 -------------
   Read [INSTALL.md](INSTALL.md) file
-  
+
+Example
+-------
+See [send_sms.py](send_sms.py) for an example on how to send text and binary messages
+
 Documentation
 -------------
   The documentation available as of the date of this release is included 
