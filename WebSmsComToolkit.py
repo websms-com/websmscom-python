@@ -5,7 +5,7 @@
 #
 # MIT-License:
 #
-# Copyright Up to Eleven Digital Solutions GmbH
+# Copyright sms.at mobile internet services GmbH
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -72,11 +72,20 @@ except Exception, e:
   print "Exception caught: " , e
   traceback.print_exc(file=sys.stdout)
 '''
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
+from __future__ import absolute_import
 
+from builtins import super
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import object
 __author__  = 'Gerd Reifenauer'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import ssl
 import re
 import base64
@@ -177,10 +186,9 @@ class Message(object):
       raise ParameterValidationException("Argument 'recipientAddressList' (list) invalid while contructing " . self.__class__.__name__)
     
     for msisdn in recipientAddressList:
-      
-      if (type(msisdn) != long):
+      if (type(msisdn) != int and type(msisdn) != long):
         raise ParameterValidationException("Recipient '" + str(msisdn) + "' is invalid. (must be of type long)");
-      if (msisdn <= 9999L or msisdn >= 999999999999999L):
+      if (msisdn <= 9999 or msisdn >= 999999999999999):
         raise ParameterValidationException("Recipient '" + str(msisdn) + "' is invalid. (max. 15 digits full international MSISDN. Example: 4367612345678)")
     
     return True
@@ -210,7 +218,7 @@ class Message(object):
     Returns: dict representation of Message object (only set values)
     """
     defined_data = {};
-    for k, v in self._data.iteritems():
+    for k, v in self._data.items():
       if (v is not None): defined_data[k] = v
     return defined_data
 
@@ -335,7 +343,7 @@ class Message(object):
     
     Throws: ParameterValidationException
     """
-    if (type(clientMessageId) == str or type(clientMessageId) == unicode or clientMessageId is None):
+    if (type(clientMessageId) == str or type(clientMessageId) == str or clientMessageId is None):
       self._data['clientMessageId'] = clientMessageId
     else:
       raise ParameterValidationException("client_message_id '" + str(clientMessageId) + "' invalid. Must be string.")
@@ -413,7 +421,7 @@ class TextMessage(Message):
     
     Throws: ParameterValidationException
     """
-    if (message_content is not None and type(message_content) == unicode):
+    if (message_content is not None and (type(message_content) == str or type(message_content) == unicode)):
       self._data['messageContent'] = message_content
     else:
       raise ParameterValidationException("Invalid message_content for TextMessage. Must be unicode.")
@@ -535,7 +543,7 @@ class Client(object):
   Example:
     client = WebSmsComToolkit.Client('http://api.websms.com/', username, password)
   """
-  VERSION = "1.0.0"
+  VERSION = "1.0.3"
   
   def __init__(self, url_base, username, password):
     """
@@ -622,36 +630,36 @@ class Client(object):
     Internally used to send request with urllib2
     """
     base64string = base64.encodestring(
-                '%s:%s' % (self.config['user'], self.config['pass']))[:-1]
-    authheader =  "Basic %s" % base64string
+                ('%s:%s' % (self.config['user'], self.config['pass'])).encode() )[:-1]
+    authheader =  "Basic %s" % base64string.decode()
     
     headers = { 
       'User-Agent'   : self.user_agent_string, 
       'Content-Type' : 'application/json;charset=UTF-8',
       'Authorization': authheader}
         
-    data    = content
+    data    = content.encode()
 
-    req = urllib2.Request(url, data, headers)
+    req = urllib.request.Request(url, data, headers)
     
     if (self.config['verbose']):
-      print "-- Request Info --"
-      print "Url: "
-      print url
-      print "\nHeader Items: "
-      print req.header_items()
-      print "\nData:"
-      print req.get_data()
-      print "-----------------"
+      print("-- Request Info --")
+      print("Url: ")
+      print(url)
+      print("\nHeader Items: ")
+      print(req.header_items())
+      print("\nData:")
+      print(req.data)
+      print("-----------------")
     
     response = None
     
     try:
       if hexversion >= 0x020600F0:
-        response = urllib2.urlopen(req, None, self.config['timeout'])
+        response = urllib.request.urlopen(req, None, self.config['timeout'])
       else:
-        response = urllib2.urlopen(req)
-    except IOError, e:
+        response = urllib.request.urlopen(req)
+    except IOError as e:
       if hasattr(e, 'code'):
         if e.code == 401:
           raise AuthorizationFailedException(e)
@@ -666,10 +674,10 @@ class Client(object):
     response_content = response.read()
     
     if (self.config['verbose']):
-      print "-- Response Info --"
-      print "Content:",
-      print response_content
-      print "-------------------"
+      print("-- Response Info --")
+      print("Content:", end=' ')
+      print(response_content)
+      print("-------------------")
       
     json_response = self.json_wrapper.loads(response_content);
     
